@@ -1,0 +1,93 @@
+/* :root {
+    
+} */
+
+em {
+    font-style: normal;
+}
+
+.greenText {
+    color: rgb(58, 182, 128);
+}
+
+.blueText {
+    color: rgb(51, 139, 255);
+    font-weight: bold;
+}
+
+.whiteText {
+    color: white;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: black;
+    font-size: 1rem;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    height: 100%;
+    width: 100%;
+}
+
+.console {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 90%;
+}
+
+.commandLine {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    color: white;
+    position: relative;
+
+    .prompt {
+        height: 100%;
+        border: none;
+        color: white;
+        background-color: black;
+        caret-color: transparent;
+
+
+        &::placeholder {
+            color: white;
+            font-weight: bolder;
+            font-size: 2rem;
+            animation: pulse 1s ease-in-out infinite forwards;
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0;
+    }
+
+    25% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    75% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
