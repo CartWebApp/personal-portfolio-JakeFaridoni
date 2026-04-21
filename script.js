@@ -110,7 +110,7 @@ commandLinePrompt.addEventListener('keydown', (e) => {
         runCommand(command);
         commandLinePrompt.value = '';
     } else {
-        console.log(terminalCommands);
+        console.log('Invalid command: use \"help\" for command list');
         commandLinePrompt.value = '';
     }
     e.preventDefault;
