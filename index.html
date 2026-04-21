@@ -4,22 +4,315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Jake Faridoni - Portfolio</title>
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="./assets/browser/favicon.svg">
 </head>
 
 <body>
     <main>
-        <section class="commandLine">
-            <aside class="promptString">
-                <p><em class="greenText">
-                    ┌╼(<em class="blueText">user@127.0.0.1</em>)<em class="whiteText">-</em>[<em class="whiteText">~</em>]<br>
-                    └<em class="blueText">$</em></em><input type="text" name="prompt" id="prompt" class="prompt" placeholder="|">
-                </p>
-            </aside>
+
+        <span id="taskbar">
+            <span id="taskbarLeft">
+                <span id="taskbarTime"></span>
+                <span id="taskbarDate"></span>
+            </span>
+            <span id="taskbarCenter">
+                <span class="taskbarIcon">⍚</span>
+                <span class="taskbarLabel">jake@portfolio</span>
+            </span>
+            <span id="taskbarRight">
+                <span class="taskbarPill">wifi</span>
+                <span class="taskbarPill">100%</span>
+                <span class="taskbarPill">EN</span>
+            </span>
+        </span>
+
+        <aside id="icons">
+            <ul id="iconList">
+
+                <li class="icon" id="terminalIcon">
+                    <svg class="iconSVG" width="96" height="88" viewBox="0 0 104 88" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="0" y="0" width="104" height="88" rx="6" fill="#2E2E50" />
+                        <rect x="0" y="0" width="104" height="18" rx="6" fill="#3A3A60" />
+                        <rect x="0" y="12" width="104" height="6" fill="#3A3A60" />
+                        <line x1="0" y1="18" x2="104" y2="18" stroke="#4E9A97" stroke-width="0.8" opacity="0.5" />
+                        <circle cx="10" cy="9" r="3" fill="#FF5F57" />
+                        <circle cx="21" cy="9" r="3" fill="#FEBC2E" />
+                        <circle cx="32" cy="9" r="3" fill="#28C840" />
+                        <text x="8" y="60" font-family="JetBrains Mono, monospace" font-size="22" font-weight="700"
+                            fill="#4E9A97">&gt;</text>
+                        <text x="28" y="60" font-family="JetBrains Mono, monospace" font-size="22" font-weight="700"
+                            fill="#55AAFF">_</text>
+                    </svg>
+                    <label class="iconLabel">Terminal</label>
+                </li>
+
+                <li class="icon" id="fileNavigatorIcon">
+                    <svg class="iconSVG" width="96" height="96" viewBox="0 0 104 96" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M0,22 Q0,14 8,14 L52,14 Q62,14 66,8 L76,8 Q82,8 82,14 L96,14 Q104,14 104,22 L104,88 Q104,96 96,96 L8,96 Q0,96 0,88 Z"
+                            fill="#2E2E50" />
+                        <rect x="0" y="22" width="104" height="74" rx="6" fill="#3A3A60" />
+                        <path d="M8,14 L52,14 Q62,14 66,8 L76,8 Q82,8 82,14" fill="none" stroke="#55AAFF"
+                            stroke-width="1.5" stroke-linecap="round" />
+                        <line x1="6" y1="29" x2="98" y2="29" stroke="#4E9A97" stroke-width="1" opacity="0.5" />
+                    </svg>
+                    <label class="iconLabel">Files</label>
+                </li>
+
+                <li class="icon" id="aboutMeIcon">
+                    <svg class="iconSVG" width="88" height="102" viewBox="0 0 88 102"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0,0 L68,0 L88,20 L88,96 Q88,102 82,102 L6,102 Q0,102 0,96 Z" fill="#2E2E50" />
+                        <path d="M68,0 L88,20 L68,20 Z" fill="#1A1A35" />
+                        <path d="M68,0 L68,20 L88,20" fill="none" stroke="#4E9A97" stroke-width="1" opacity="0.7" />
+                        <line x1="12" y1="38" x2="76" y2="38" stroke="#55AAFF" stroke-width="2" stroke-linecap="round"
+                            opacity="0.5" />
+                        <line x1="12" y1="50" x2="76" y2="50" stroke="#55AAFF" stroke-width="2" stroke-linecap="round"
+                            opacity="0.35" />
+                        <line x1="12" y1="62" x2="60" y2="62" stroke="#55AAFF" stroke-width="2" stroke-linecap="round"
+                            opacity="0.35" />
+                        <line x1="12" y1="74" x2="70" y2="74" stroke="#55AAFF" stroke-width="2" stroke-linecap="round"
+                            opacity="0.25" />
+                        <line x1="12" y1="86" x2="44" y2="86" stroke="#55AAFF" stroke-width="2" stroke-linecap="round"
+                            opacity="0.2" />
+                    </svg>
+                    <label class="iconLabel">about_me.txt</label>
+                </li>
+
+            </ul>
+        </aside>
+
+        <section class="window terminal hidden">
+            <span class="windowBar" id="terminalBar">
+                <div class="windowButtons">
+                    <button class="windowButton btnClose" id="terminalClose"></button>
+                    <button class="windowButton btnMaximize" id="terminalMaximize"></button>
+                    <button class="windowButton btnMinimize" id="terminalMinimize"></button>
+                </div>
+                <span class="windowTitle" id="terminalTitle">Terminal</span>
+            </span>
+            <section class="windowBody">
+                <aside class="promptString">
+                    <p>
+                        ┌──(<span id="commandLineUser">user@127.0.0.1</span>)-[<span
+                            id="commandLineDirectory">~</span>]<br>
+                        └─<span id="commandLinePrompt">$</span><input type="text" name="prompt" id="prompt"
+                            class="prompt" autocomplete="off" placeholder="type help for commands">
+                    </p>
+                </aside>
+            </section>
         </section>
-        <section class="console"></section>
+
+        <section class="window fileNavigator hidden">
+            <span class="windowBar" id="fileNavigatorBar">
+                <div class="windowButtons">
+                    <button class="windowButton btnClose" id="fileNavigatorClose"></button>
+                    <button class="windowButton btnMaximize" id="fileNavigatorMaximize"></button>
+                    <button class="windowButton btnMinimize" id="fileNavigatorMinimize"></button>
+                </div>
+                <span class="windowTitle" id="fileNavigatorTitle">File Navigator [~]</span>
+            </span>
+            <div class="windowBody">
+
+                <aside class="directoryManager">
+                    <ul class="directories">
+                        <li class="directory" id="rootDirectory">
+                            <svg class="iconSVG" width="96" height="96" viewBox="0 0 104 96"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M0,22 Q0,14 8,14 L52,14 Q62,14 66,8 L76,8 Q82,8 82,14 L96,14 Q104,14 104,22 L104,88 Q104,96 96,96 L8,96 Q0,96 0,88 Z"
+                                    fill="#2E2E50" />
+                                <rect x="0" y="22" width="104" height="74" rx="6" fill="#3A3A60" />
+                                <path d="M8,14 L52,14 Q62,14 66,8 L76,8 Q82,8 82,14" fill="none" stroke="#55AAFF"
+                                    stroke-width="1.5" stroke-linecap="round" />
+                                <line x1="6" y1="29" x2="98" y2="29" stroke="#4E9A97" stroke-width="1" opacity="0.5" />
+                            </svg>
+                            <label class="iconLabel">root</label>
+                        </li>
+                        <li class="directory" id="testDirectory">
+                            <svg class="iconSVG" width="96" height="96" viewBox="0 0 104 96"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M0,22 Q0,14 8,14 L52,14 Q62,14 66,8 L76,8 Q82,8 82,14 L96,14 Q104,14 104,22 L104,88 Q104,96 96,96 L8,96 Q0,96 0,88 Z"
+                                    fill="#2E2E50" />
+                                <rect x="0" y="22" width="104" height="74" rx="6" fill="#3A3A60" />
+                                <path d="M8,14 L52,14 Q62,14 66,8 L76,8 Q82,8 82,14" fill="none" stroke="#55AAFF"
+                                    stroke-width="1.5" stroke-linecap="round" />
+                                <line x1="6" y1="29" x2="98" y2="29" stroke="#4E9A97" stroke-width="1" opacity="0.5" />
+                            </svg>
+                            <label class="iconLabel">test</label>
+                        </li>
+                        <li class="directory" id="testTwoDirectory">
+                            <svg class="iconSVG" width="96" height="96" viewBox="0 0 104 96"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M0,22 Q0,14 8,14 L52,14 Q62,14 66,8 L76,8 Q82,8 82,14 L96,14 Q104,14 104,22 L104,88 Q104,96 96,96 L8,96 Q0,96 0,88 Z"
+                                    fill="#2E2E50" />
+                                <rect x="0" y="22" width="104" height="74" rx="6" fill="#3A3A60" />
+                                <path d="M8,14 L52,14 Q62,14 66,8 L76,8 Q82,8 82,14" fill="none" stroke="#55AAFF"
+                                    stroke-width="1.5" stroke-linecap="round" />
+                                <line x1="6" y1="29" x2="98" y2="29" stroke="#4E9A97" stroke-width="1" opacity="0.5" />
+                            </svg>
+                            <label class="iconLabel">testTwo</label>
+                        </li>
+                    </ul>
+                </aside>
+
+                <ul id="files" class="fileList">
+                    <li id="webFolder" class="folder">
+                        <svg class="iconSVG" width="96" height="96" viewBox="0 0 104 96"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M0,22 Q0,14 8,14 L52,14 Q62,14 66,8 L76,8 Q82,8 82,14 L96,14 Q104,14 104,22 L104,88 Q104,96 96,96 L8,96 Q0,96 0,88 Z"
+                                fill="#2E2E50" />
+                            <rect x="0" y="22" width="104" height="74" rx="6" fill="#3A3A60" />
+                            <path d="M8,14 L52,14 Q62,14 66,8 L76,8 Q82,8 82,14" fill="none" stroke="#55AAFF"
+                                stroke-width="1.5" stroke-linecap="round" />
+                            <line x1="6" y1="29" x2="98" y2="29" stroke="#4E9A97" stroke-width="1" opacity="0.5" />
+                        </svg>
+                        <label class="iconLabel">Web</label>
+                    </li>
+                    <li id="writingFolder" class="folder">
+                        <svg class="iconSVG" width="96" height="96" viewBox="0 0 104 96"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M0,22 Q0,14 8,14 L52,14 Q62,14 66,8 L76,8 Q82,8 82,14 L96,14 Q104,14 104,22 L104,88 Q104,96 96,96 L8,96 Q0,96 0,88 Z"
+                                fill="#2E2E50" />
+                            <rect x="0" y="22" width="104" height="74" rx="6" fill="#3A3A60" />
+                            <path d="M8,14 L52,14 Q62,14 66,8 L76,8 Q82,8 82,14" fill="none" stroke="#55AAFF"
+                                stroke-width="1.5" stroke-linecap="round" />
+                            <line x1="6" y1="29" x2="98" y2="29" stroke="#4E9A97" stroke-width="1" opacity="0.5" />
+                        </svg>
+                        <label class="iconLabel">Writing</label>
+                    </li>
+                </ul>
+
+                <ul id="webFiles" class="fileList hidden">
+                    <li id="webProjectOne" class="file">
+                        <svg class="iconSVG" width="88" height="102" viewBox="0 0 88 102"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0,0 L68,0 L88,20 L88,96 Q88,102 82,102 L6,102 Q0,102 0,96 Z" fill="#2E2E50" />
+                            <path d="M68,0 L88,20 L68,20 Z" fill="#1A1A35" />
+                            <path d="M68,0 L68,20 L88,20" fill="none" stroke="#4E9A97" stroke-width="1" opacity="0.7" />
+                            <line x1="12" y1="38" x2="76" y2="38" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.5" />
+                            <line x1="12" y1="50" x2="76" y2="50" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.35" />
+                            <line x1="12" y1="62" x2="60" y2="62" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.35" />
+                            <line x1="12" y1="74" x2="70" y2="74" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.25" />
+                            <line x1="12" y1="86" x2="44" y2="86" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.2" />
+                        </svg>
+                        <label class="iconLabel">project_1.txt</label>
+                    </li>
+                    <li id="webProjectTwo" class="file">
+                        <svg class="iconSVG" width="88" height="102" viewBox="0 0 88 102"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0,0 L68,0 L88,20 L88,96 Q88,102 82,102 L6,102 Q0,102 0,96 Z" fill="#2E2E50" />
+                            <path d="M68,0 L88,20 L68,20 Z" fill="#1A1A35" />
+                            <path d="M68,0 L68,20 L88,20" fill="none" stroke="#4E9A97" stroke-width="1" opacity="0.7" />
+                            <line x1="12" y1="38" x2="76" y2="38" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.5" />
+                            <line x1="12" y1="50" x2="76" y2="50" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.35" />
+                            <line x1="12" y1="62" x2="60" y2="62" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.35" />
+                            <line x1="12" y1="74" x2="70" y2="74" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.25" />
+                            <line x1="12" y1="86" x2="44" y2="86" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.2" />
+                        </svg>
+                        <label class="iconLabel">project_2.txt</label>
+                    </li>
+                    <li id="webProjectThree" class="file">
+                        <svg class="iconSVG" width="88" height="102" viewBox="0 0 88 102"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0,0 L68,0 L88,20 L88,96 Q88,102 82,102 L6,102 Q0,102 0,96 Z" fill="#2E2E50" />
+                            <path d="M68,0 L88,20 L68,20 Z" fill="#1A1A35" />
+                            <path d="M68,0 L68,20 L88,20" fill="none" stroke="#4E9A97" stroke-width="1" opacity="0.7" />
+                            <line x1="12" y1="38" x2="76" y2="38" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.5" />
+                            <line x1="12" y1="50" x2="76" y2="50" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.35" />
+                            <line x1="12" y1="62" x2="60" y2="62" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.35" />
+                            <line x1="12" y1="74" x2="70" y2="74" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.25" />
+                            <line x1="12" y1="86" x2="44" y2="86" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.2" />
+                        </svg>
+                        <label class="iconLabel">project_3.txt</label>
+                    </li>
+                </ul>
+
+                <ul id="writingFiles" class="fileList hidden">
+                    <li id="writingProjectOne" class="file">
+                        <svg class="iconSVG" width="88" height="102" viewBox="0 0 88 102"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0,0 L68,0 L88,20 L88,96 Q88,102 82,102 L6,102 Q0,102 0,96 Z" fill="#2E2E50" />
+                            <path d="M68,0 L88,20 L68,20 Z" fill="#1A1A35" />
+                            <path d="M68,0 L68,20 L88,20" fill="none" stroke="#4E9A97" stroke-width="1" opacity="0.7" />
+                            <line x1="12" y1="38" x2="76" y2="38" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.5" />
+                            <line x1="12" y1="50" x2="76" y2="50" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.35" />
+                            <line x1="12" y1="62" x2="60" y2="62" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.35" />
+                            <line x1="12" y1="74" x2="70" y2="74" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.25" />
+                            <line x1="12" y1="86" x2="44" y2="86" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.2" />
+                        </svg>
+                        <label class="iconLabel">project_1.txt</label>
+                    </li>
+                    <li id="writingProjectTwo" class="file">
+                        <svg class="iconSVG" width="88" height="102" viewBox="0 0 88 102"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0,0 L68,0 L88,20 L88,96 Q88,102 82,102 L6,102 Q0,102 0,96 Z" fill="#2E2E50" />
+                            <path d="M68,0 L88,20 L68,20 Z" fill="#1A1A35" />
+                            <path d="M68,0 L68,20 L88,20" fill="none" stroke="#4E9A97" stroke-width="1" opacity="0.7" />
+                            <line x1="12" y1="38" x2="76" y2="38" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.5" />
+                            <line x1="12" y1="50" x2="76" y2="50" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.35" />
+                            <line x1="12" y1="62" x2="60" y2="62" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.35" />
+                            <line x1="12" y1="74" x2="70" y2="74" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.25" />
+                            <line x1="12" y1="86" x2="44" y2="86" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.2" />
+                        </svg>
+                        <label class="iconLabel">project_2.txt</label>
+                    </li>
+                    <li id="writingProjectThree" class="file">
+                        <svg class="iconSVG" width="88" height="102" viewBox="0 0 88 102"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0,0 L68,0 L88,20 L88,96 Q88,102 82,102 L6,102 Q0,102 0,96 Z" fill="#2E2E50" />
+                            <path d="M68,0 L88,20 L68,20 Z" fill="#1A1A35" />
+                            <path d="M68,0 L68,20 L88,20" fill="none" stroke="#4E9A97" stroke-width="1" opacity="0.7" />
+                            <line x1="12" y1="38" x2="76" y2="38" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.5" />
+                            <line x1="12" y1="50" x2="76" y2="50" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.35" />
+                            <line x1="12" y1="62" x2="60" y2="62" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.35" />
+                            <line x1="12" y1="74" x2="70" y2="74" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.25" />
+                            <line x1="12" y1="86" x2="44" y2="86" stroke="#55AAFF" stroke-width="2"
+                                stroke-linecap="round" opacity="0.2" />
+                        </svg>
+                        <label class="iconLabel">project_3.txt</label>
+                    </li>
+                </ul>
+
+            </div>
+        </section>
+
     </main>
 </body>
 
