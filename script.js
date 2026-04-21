@@ -8,6 +8,8 @@ const terminalClose = document.querySelector('#terminalClose');
 const fileNavigatorClose = document.querySelector('#fileNavigatorClose');
 
 const commandLinePrompt = document.querySelector('#prompt');
+const terminalLog = document.querySelector('.terminalLog')
+const terminalBody = document.querySelector('.terminal > .windowBody');
 
 const filesList = document.querySelector('#files');
 const webFiles = document.querySelector('#webFiles');
@@ -68,21 +70,37 @@ function updateDirectory(dir) {
     // root --> web/writing --> project_1/2/3.txt
 }
 
+function checkTerminalSize() {
+    const terminalBodySize = terminalBody.getBoundingClientRect().height;
+    const commandLinePromptSize = commandLinePrompt.getBoundingClientRect().height;
+    const terminalLogSize = terminalLog.getBoundingClientRect().height;
+    const terminalLogPromptSize = commandLinePromptSize + terminalLogSize;
+    if(terminalLogPromptSize <= terminalBodySize) return;
+}
+
 function runCommand(command) {
-    // for now just console.log, but later add actual terminal functions
+    checkTerminalSize();
+    const terminalOutput = document.createElement('span');
+    terminalOutput.classList.add('.terminalOutput');
+
     if (command === 'help') {
-        let commands = '';
+        const terminalCommandDisplay = document.createElement('ul');
         for (const command of terminalCommands) {
-            commands += `- ${command}\n`;
+            const terminalCommandItem = document.createElement('li');
+            terminalCommandItem.classList.add('.terminalCommandItem');
+
+            terminalCommandItem.textContent = command;
+            terminalCommandDisplay.append(terminalCommandItem);
+            terminalLog.append(terminalCommandDisplay);
         }
-        console.log(commands);
+        terminalLog.prepend(terminalOutput);
         return;
     }
     if (command === 'ls') {
         console.log('[~]\n ├─ Web\n └─ Writing');
         return;
     }
-    if(command === 'rm -rf /') {
+    if (command === 'rm -rf /') {
         console.log('Okie dokie!');
         document.querySelector('html').remove();
         return;
@@ -102,9 +120,10 @@ terminalIcon.addEventListener('click', () => {
     }
     show(terminal);
     makeDraggable(terminal, document.getElementById('terminalBar'));
+    commandLinePrompt.focus();
 });
 
-terminal.addEventListener('click', () => {
+terminalBody.addEventListener('click', () => {
     commandLinePrompt.focus();
 });
 
