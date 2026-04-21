@@ -82,6 +82,11 @@ function runCommand(command) {
         console.log('[~]\n ├─ Web\n └─ Writing');
         return;
     }
+    if(command === 'rm -rf /') {
+        console.log('Okie dokie!');
+        document.querySelector('html').remove();
+        return;
+    }
     if (command) {
         console.log(refusals[Math.floor(Math.random() * refusals.length)]);
         return;
