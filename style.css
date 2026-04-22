@@ -20,6 +20,10 @@
     user-select: none;
 }
 
+* {
+    cursor: url('./assets/cursors/Pointer.cur') 0 0, auto;
+}
+
 body {
     width: 100vw;
     height: 100vh;
@@ -55,7 +59,7 @@ main {
     flex-shrink: 0;
     font-size: 0.75rem;
     color: var(--light);
-    cursor: default;
+    
 
     #taskbarLeft {
         display: flex;
@@ -111,7 +115,7 @@ main {
     align-items: center;
     width: 5em;
     gap: 0.25em;
-    cursor: pointer;
+    
 
     .iconLabel {
         text-align: center;
@@ -157,19 +161,15 @@ main {
     border: 2px solid var(--blue);
     border-radius: 8px 8px 0 0;
     flex-shrink: 0;
-    cursor: grab;
+    cursor: url('./assets/cursors/Pan.cur') 0 0, auto;
 
     &:active {
-        cursor: grabbing;
+        cursor: url('./assets/cursors/Grabbing.cur') 0 0, auto;
     }
 
     .windowButtons {
         display: flex;
         gap: 0.5em;
-
-        &:hover {
-            cursor: default;
-        }
     }
 
     .windowButton {
@@ -180,7 +180,7 @@ main {
         border: none;
         height: 1.25em;
         width: 1.25em;
-        cursor: pointer;
+        
 
         &:hover {
             border: 2px solid var(--light);
@@ -220,7 +220,7 @@ main {
 .terminal .windowBody {
     overflow-y: auto;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     padding-left: 1em;
     color: white;
     scrollbar-width: thin;
@@ -228,18 +228,29 @@ main {
 }
 
 .terminalLog {
-    order: 0;
+    flex: 0;
     display: flex;
     flex-direction: column;
     background-color: transparent;
+    font-weight: bold;
 
-    /* .terminalOutput {
-        
-    } */
+    .terminalOutput {
+        display: flex;
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 1em 0 0 0;
+            
+            .terminalCommandItem {
+                padding: 0.75em 0 0.75em 0;
+            }
+        }
+    }
 }
 
 .promptString {
-    order: 1;
+    flex: 1;
     font-size: var(--body);
     color: var(--teal);
 
@@ -300,7 +311,7 @@ main {
                 color: var(--light);
                 justify-content: center;
                 align-items: center;
-                cursor: pointer;
+                
 
                 &:not(:last-child)::after {
                     content: "↓";
@@ -349,7 +360,7 @@ main {
     flex-direction: column;
     align-items: center;
     gap: 0.25em;
-    cursor: pointer;
+    
 
     .iconSVG {
         width: 4em;

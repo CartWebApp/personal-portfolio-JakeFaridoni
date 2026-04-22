@@ -22,7 +22,7 @@ const writingFolder = document.querySelector('#writingFolder');
 
 const fileNavigatorTitle = document.querySelector('#fileNavigatorTitle');
 
-const terminalCommands = ['help', 'ls', 'cd', 'rm -rf /'];
+const terminalCommands = ['help', 'ls', 'cd', 'rm -rf /', 'clear'];
 const refusals = [
     'I don\'t wanna',
     'Nope',
@@ -39,7 +39,6 @@ const refusals = [
     'Bold of you to assume I take requests',
     'The audacity...',
     'Maybe... No.',
-    'New phone, who dis',
     'Please leave a message after the beep. Beep.',
     'lol no',
     'I have a headache',
@@ -70,50 +69,55 @@ function updateDirectory(dir) {
     // root --> web/writing --> project_1/2/3.txt
 }
 
-function checkTerminalSize() {
-    const terminalBodySize = terminalBody.getBoundingClientRect().height;
-    const commandLinePromptSize = commandLinePrompt.getBoundingClientRect().height;
-    const terminalLogSize = terminalLog.getBoundingClientRect().height;
-    const terminalLogPromptSize = commandLinePromptSize + terminalLogSize;
-    if(terminalLogPromptSize <= terminalBodySize) return;
+function scrollTerminal() {
+    terminalBody.scrollTop = terminalBody.scrollHeight;
 }
 
 function runCommand(command) {
-    checkTerminalSize();
     const terminalOutput = document.createElement('span');
-    terminalOutput.classList.add('.terminalOutput');
+    terminalOutput.classList.add('terminalOutput');
 
     if (command === 'help') {
         const terminalCommandDisplay = document.createElement('ul');
         for (const command of terminalCommands) {
             const terminalCommandItem = document.createElement('li');
-            terminalCommandItem.classList.add('.terminalCommandItem');
+            terminalCommandItem.classList.add('terminalCommandItem');
 
             terminalCommandItem.textContent = command;
             terminalCommandDisplay.append(terminalCommandItem);
-            terminalLog.append(terminalCommandDisplay);
+            terminalOutput.append(terminalCommandDisplay);
+            scrollTerminal();
         }
-        terminalLog.prepend(terminalOutput);
+        terminalLog.append(terminalOutput);
         return;
     }
-    if (command === 'ls') {
-        console.log('[~]\n ├─ Web\n └─ Writing');
+    else if (command === 'ls') {
+        const out = document.createElement('pre');
+        out.textContent = '[~]\n ├─ Web\n └─ Writing';
+        terminalLog.append(out);
+        scrollTerminal();
         return;
     }
-    if (command === 'rm -rf /') {
-        console.log('Okie dokie!');
+    else if (command === 'rm -rf /') {
         document.querySelector('html').remove();
         return;
     }
-    if (command) {
-        console.log(refusals[Math.floor(Math.random() * refusals.length)]);
+    else if (command === 'clear') {
+        if (!(terminalLog.children)) return;
+        [...terminalLog.children].forEach(child => child.remove());
+    }
+    else if (command) {
+        const out = document.createElement('p');
+        out.textContent = refusals[Math.floor(Math.random() * refusals.length)];
+        out.style.color = 'var(--light)';
+        terminalLog.append(out);
+        scrollTerminal();
         return;
     }
 }
 
 // --- Open / Close windows ---
 terminalIcon.addEventListener('click', () => {
-    console.log(terminal.style.order);
     if (terminal.classList.contains('hidden')) {
         terminal.style.left = '25%';
         terminal.style.top = '25%';
@@ -134,16 +138,20 @@ commandLinePrompt.addEventListener('keydown', (e) => {
         runCommand(command);
         commandLinePrompt.value = '';
     } else {
-        console.log('Invalid command: use \"help\" for command list');
         commandLinePrompt.value = '';
+        const warn = document.createElement('p');
+        warn.textContent = 'Invalid command (use \'help\')';
+        warn.style.color = 'var(--light)';
+        terminalLog.append(warn);
+        scrollTerminal();
+        return;
     }
-    e.preventDefault;
+    e.preventDefault();
 });
 
 terminalClose.addEventListener('click', () => hide(terminal));
 
 fileNavigatorIcon.addEventListener('click', () => {
-    console.log(fileNavigator.style.order);
     if (fileNavigator.classList.contains('hidden')) {
         fileNavigator.style.left = '25%';
         fileNavigator.style.top = '25%';
