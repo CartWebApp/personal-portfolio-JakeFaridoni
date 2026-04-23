@@ -45,6 +45,16 @@ const refusals = [
     'Did you say something? I wasn\'t listening',
 ];
 
+class Command {
+    constructor(name) {
+        this.name = name
+    }
+
+    run() {
+        return;
+    }
+}
+
 // --- Utility ---
 function updateClock() {
     const now = new Date();
@@ -73,48 +83,50 @@ function scrollTerminal() {
     terminalBody.scrollTop = terminalBody.scrollHeight;
 }
 
-function runCommand(command) {
-    const terminalOutput = document.createElement('span');
-    terminalOutput.classList.add('terminalOutput');
+// !>- DEPRECATED -<! 
 
-    if (command === 'help') {
-        const terminalCommandDisplay = document.createElement('ul');
-        for (const command of terminalCommands) {
-            const terminalCommandItem = document.createElement('li');
-            terminalCommandItem.classList.add('terminalCommandItem');
+// function runCommand(command) {
+//     const terminalOutput = document.createElement('span');
+//     terminalOutput.classList.add('terminalOutput');
 
-            terminalCommandItem.textContent = command;
-            terminalCommandDisplay.append(terminalCommandItem);
-            terminalOutput.append(terminalCommandDisplay);
-            scrollTerminal();
-        }
-        terminalLog.append(terminalOutput);
-        return;
-    }
-    else if (command === 'ls') {
-        const out = document.createElement('pre');
-        out.textContent = '[~]\n ├─ Web\n └─ Writing';
-        terminalLog.append(out);
-        scrollTerminal();
-        return;
-    }
-    else if (command === 'rm -rf /') {
-        document.querySelector('html').remove();
-        return;
-    }
-    else if (command === 'clear') {
-        if (!(terminalLog.children)) return;
-        [...terminalLog.children].forEach(child => child.remove());
-    }
-    else if (command) {
-        const out = document.createElement('p');
-        out.textContent = refusals[Math.floor(Math.random() * refusals.length)];
-        out.style.color = 'var(--light)';
-        terminalLog.append(out);
-        scrollTerminal();
-        return;
-    }
-}
+//     if (command === 'help') {
+//         const terminalCommandDisplay = document.createElement('ul');
+//         for (const command of terminalCommands) {
+//             const terminalCommandItem = document.createElement('li');
+//             terminalCommandItem.classList.add('terminalCommandItem');
+
+//             terminalCommandItem.textContent = command;
+//             terminalCommandDisplay.append(terminalCommandItem);
+//             terminalOutput.append(terminalCommandDisplay);
+//             scrollTerminal();
+//         }
+//         terminalLog.append(terminalOutput);
+//         return;
+//     }
+//     else if (command === 'ls') {
+//         const out = document.createElement('pre');
+//         out.textContent = '[~]\n ├─ Web\n └─ Writing';
+//         terminalLog.append(out);
+//         scrollTerminal();
+//         return;
+//     }
+//     else if (command === 'rm -rf /') {
+//         document.querySelector('html').remove();
+//         return;
+//     }
+//     else if (command === 'clear') {
+//         if (!(terminalLog.children)) return;
+//         [...terminalLog.children].forEach(child => child.remove());
+//     }
+//     else if (command) {
+//         const out = document.createElement('p');
+//         out.textContent = refusals[Math.floor(Math.random() * refusals.length)];
+//         out.style.color = 'var(--light)';
+//         terminalLog.append(out);
+//         scrollTerminal();
+//         return;
+//     }
+// }
 
 // --- Open / Close windows ---
 terminalIcon.addEventListener('click', () => {
