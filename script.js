@@ -136,6 +136,7 @@ terminalIcon.addEventListener('click', () => {
     }
     show(terminal);
     makeDraggable(terminal, document.getElementById('terminalBar'));
+    terminal.style.zIndex = '1';
     commandLinePrompt.focus();
 });
 
@@ -173,6 +174,7 @@ fileNavigatorIcon.addEventListener('click', () => {
     hide(writingFiles);
     show(filesList);
     fileNavigatorTitle.textContent = 'File Navigator [~]';
+    fileNavigator.style.zIndex = '2'
     makeDraggable(fileNavigator, document.getElementById('fileNavigatorBar'));
 });
 
@@ -221,4 +223,10 @@ function makeDraggable(win, bar) {
         isDragging = false;
         bar.style.cursor = 'grab';
     });
+}
+
+// --- Indexing windows ---
+function indexWindow(win) {
+    let terminalIndex = terminal.style.zIndex;
+    let navigatorIndex = fileNavigator.style.zIndex; 
 }
