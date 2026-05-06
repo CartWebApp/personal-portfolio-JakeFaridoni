@@ -6,6 +6,7 @@
     --darkest: #0C0C1D;
     --dark: #1A1A2E;
     --blue: #55AAFF;
+    --dark-blue: #20204C;
     --teal: #4E9A97;
     --light: #EEE;
     --body: 1rem;
@@ -87,9 +88,61 @@ main {
             color: var(--blue);
             transition: all 0.5s ease;
 
+            &#taskbarBtn:active {
+                background-color: var(--background);
+                color: var(--blue);
+                transition: none;
+            }
+
             &:hover {
                 color: var(--light);
                 background-color: var(--blue);
+            }
+        }
+    }
+}
+
+#taskbarOptions {
+    width: fit-content;
+    height: fit-content;
+    position: absolute;
+    color: white;
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--dark-blue);
+    border-radius: 8px;
+    border: 2px solid var(--blue);
+    right: 0.5em;
+
+    #optionList {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        gap: 1em;
+
+        .option {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0.5em 1em 0.5em 1em;
+            border-bottom: 1px solid var(--blue);
+            transition: all 0.5s ease;
+
+            &:hover {
+                /* border: 1px solid var(--light); */
+                background-color: var(--blue);
+                color: var(--dark);
+
+                /* &:first-child {
+                    border-radius: 7px 7px 0 0;
+                    transition: none;
+                }
+
+                &:last-child {
+                    border-radius: 0 0 7px 7px;
+                    transition: none;
+                } */
             }
         }
     }

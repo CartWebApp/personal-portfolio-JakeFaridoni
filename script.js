@@ -1,3 +1,6 @@
+const taskbarBtn = document.querySelector('#taskbarBtn');
+const taskbarOptions = document.querySelector('#taskbarOptions');
+
 const terminal = document.querySelector('.terminal');
 const fileNavigator = document.querySelector('.fileNavigator');
 
@@ -15,7 +18,7 @@ const filesList = document.querySelector('#files');
 const webFiles = document.querySelector('#webFiles');
 const writingFiles = document.querySelector('#writingFiles');
 
-// const directoryList = document.q
+const directoryList = document.querySelector('.directories');
 
 const webFolder = document.querySelector('#webFolder');
 const writingFolder = document.querySelector('#writingFolder');
@@ -45,16 +48,6 @@ const refusals = [
     'Did you say something? I wasn\'t listening',
 ];
 
-class Command {
-    constructor(name) {
-        this.name = name
-    }
-
-    run() {
-        return;
-    }
-}
-
 // --- Utility ---
 function updateClock() {
     const now = new Date();
@@ -76,57 +69,60 @@ function hide(el) {
 
 function updateDirectory(dir) {
     // function that adds to the directories list in the file navigator
-    // root --> web/writing --> project_1/2/3.txt
+    // root --> web/writing --> root
 }
 
 function scrollTerminal() {
     terminalBody.scrollTop = terminalBody.scrollHeight;
 }
 
-// !>- DEPRECATED -<! 
+async function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-// function runCommand(command) {
-//     const terminalOutput = document.createElement('span');
-//     terminalOutput.classList.add('terminalOutput');
+function runCommand(command) {
+    const terminalOutput = document.createElement('span');
+    terminalOutput.classList.add('terminalOutput');
 
-//     if (command === 'help') {
-//         const terminalCommandDisplay = document.createElement('ul');
-//         for (const command of terminalCommands) {
-//             const terminalCommandItem = document.createElement('li');
-//             terminalCommandItem.classList.add('terminalCommandItem');
+    if (command === 'help') {
+        const terminalCommandDisplay = document.createElement('ul');
+        for (const command of terminalCommands) {
+            const terminalCommandItem = document.createElement('li');
+            terminalCommandItem.classList.add('terminalCommandItem');
 
-//             terminalCommandItem.textContent = command;
-//             terminalCommandDisplay.append(terminalCommandItem);
-//             terminalOutput.append(terminalCommandDisplay);
-//             scrollTerminal();
-//         }
-//         terminalLog.append(terminalOutput);
-//         return;
-//     }
-//     else if (command === 'ls') {
-//         const out = document.createElement('pre');
-//         out.textContent = '[~]\n ├─ Web\n └─ Writing';
-//         terminalLog.append(out);
-//         scrollTerminal();
-//         return;
-//     }
-//     else if (command === 'rm -rf /') {
-//         document.querySelector('html').remove();
-//         return;
-//     }
-//     else if (command === 'clear') {
-//         if (!(terminalLog.children)) return;
-//         [...terminalLog.children].forEach(child => child.remove());
-//     }
-//     else if (command) {
-//         const out = document.createElement('p');
-//         out.textContent = refusals[Math.floor(Math.random() * refusals.length)];
-//         out.style.color = 'var(--light)';
-//         terminalLog.append(out);
-//         scrollTerminal();
-//         return;
-//     }
-// }
+            terminalCommandItem.textContent = command;
+            terminalCommandDisplay.append(terminalCommandItem);
+            terminalOutput.append(terminalCommandDisplay);
+            scrollTerminal();
+        }
+        terminalLog.append(terminalOutput);
+        return;
+    }
+    else if (command === 'ls') {
+        const out = document.createElement('pre');
+        out.textContent = '';
+        terminalLog.append(out);
+        scrollTerminal();
+        return;
+    }
+    else if (command === 'rm -rf /') {
+        document.querySelector('body').classList.add('hidden');
+        document.querySelector('html').style.backgroundColor = 'black';
+        return;
+    }
+    else if (command === 'clear') {
+        if (!(terminalLog.children)) return;
+        [...terminalLog.children].forEach(child => child.remove());
+    }
+    else if (command) {
+        const out = document.createElement('p');
+        out.textContent = refusals[Math.floor(Math.random() * refusals.length)];
+        out.style.color = 'var(--light)';
+        terminalLog.append(out);
+        scrollTerminal();
+        return;
+    }
+}
 
 // --- Open / Close windows ---
 terminalIcon.addEventListener('click', () => {
@@ -225,8 +221,15 @@ function makeDraggable(win, bar) {
     });
 }
 
-// --- Indexing windows ---
-function indexWindow(win) {
-    let terminalIndex = terminal.style.zIndex;
-    let navigatorIndex = fileNavigator.style.zIndex; 
+// --- Taskbar Menu ---
+taskbarBtn.addEventListener('click', () => {
+    const optionsClasses = taskbarOptions.classList;
+    const optionsStyle = taskbarOptions.style;
+    optionsStyle.top = `calc(${document.querySelector('#taskbar').getBoundingClientRect().height}px + 0.5em)`;
+    optionsClasses.contains('hidden') ? optionsClasses.remove('hidden') : optionsClasses.add('hidden');
+});
+
+// --- Reboot Sequence ---
+async function reboot() {
+
 }
